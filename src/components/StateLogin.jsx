@@ -1,30 +1,47 @@
 import { useState } from "react";
 
 export default function Login() {
-  // const [enteredEmail, setEnteredEmail] = useState("");
-  // const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredValues, setEnteredValues] = useState({
     email: "",
     password: "",
   });
 
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false,
+  });
+
+  const { email, password } = enteredValues;
+
+  const enterValidEmail = didEdit.email && !email.includes("@");
+
+  const handleInputBlur = (identifier) => {
+    //when the input lost its focus this will trigger
+    setDidEdit((prevValues) => ({
+      ...prevValues,
+      [identifier]: true,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitted");
+
+    setEnteredValues({
+      email: "",
+      password: "",
+    });
   };
-
-  // const handleEmailChange = (e) => {
-  //   setEnteredEmail(e.target.value);
-  // };
-
-  // const handlePasswordChange = (e) => {
-  //   setEnteredPassword(e.target.value);
-  // };
 
   const handleInputChange = (identifier, event) => {
     setEnteredValues((prevValues) => ({
       ...prevValues,
       [identifier]: event.target.value,
+    }));
+
+    setDidEdit((prevValues) => ({
+      ...prevValues,
+      [identifier]: false,
     }));
   };
 
@@ -38,10 +55,14 @@ export default function Login() {
           <input
             id="email"
             type="email"
+            onBlur={() => handleInputBlur("email")}
             name="email"
             onChange={(event) => handleInputChange("email", event)}
             value={enteredValues.email}
           />
+          {enterValidEmail && (
+            <p className="control-error">Please enter a valid email address.</p>
+          )}
         </div>
 
         <div className="control no-margin">

@@ -7,6 +7,8 @@ export default function Signup() {
     const data = Object.fromEntries(fd.entries()); //getting all the values from the inputs
     data.acquisition = acquisitionChannel; // ADDING THE CHECKBOXES TO THE FORMDATA
     console.log(data);
+
+    e.target.reset(); //RESETTING THE FORM
   };
 
   return (
