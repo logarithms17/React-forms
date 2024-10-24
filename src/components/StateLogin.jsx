@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from "./Input";
 
 export default function Login() {
   const [enteredValues, setEnteredValues] = useState({
@@ -13,7 +14,8 @@ export default function Login() {
 
   const { email, password } = enteredValues;
 
-  const enterValidEmail = didEdit.email && !email.includes("@");
+  const enterInvalidEmail = didEdit.email && !email.includes("@");
+  const enterInvalidPassowrd = didEdit.password && password.trim().length < 6;
 
   const handleInputBlur = (identifier) => {
     //when the input lost its focus this will trigger
@@ -50,31 +52,24 @@ export default function Login() {
       <h2>Login</h2>
 
       <div className="control-row">
-        <div className="control no-margin">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            onBlur={() => handleInputBlur("email")} //when input loses focus
-            name="email"
-            onChange={(event) => handleInputChange("email", event)}
-            value={enteredValues.email}
-          />
-          {enterValidEmail && (
-            <p className="control-error">Please enter a valid email address.</p>
-          )}
-        </div>
+        <Input
+          label="Email"
+          type="email"
+          name="email"
+          onBlur={() => handleInputBlur("email")} //when input loses focus
+          onChange={(event) => handleInputChange("email", event)}
+          value={email}
+          error={enterInvalidEmail && "Please enter a valid email!"}
+        />
 
-        <div className="control no-margin">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            onChange={(event) => handleInputChange("password", event)}
-            value={enteredValues.password}
-          />
-        </div>
+        <Input
+          label="Password"
+          type="password"
+          name="password"
+          onBlur={() => handleInputBlur("password")} //when input loses focus
+          onChange={(event) => handleInputChange("password", event)}
+          error={enterInvalidPassowrd && "Please enter a valid password"}
+        />
       </div>
 
       <p className="form-actions">
