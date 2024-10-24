@@ -55,7 +55,7 @@ export default function Login() {
           <input
             id="email"
             type="email"
-            onBlur={() => handleInputBlur("email")}
+            onBlur={() => handleInputBlur("email")} //when input loses focus
             name="email"
             onChange={(event) => handleInputChange("email", event)}
             value={enteredValues.email}
